@@ -1,11 +1,13 @@
 const AppError = require('../utils/appError');
 const bcrypt = require('bcryptjs');
 const catchAsync = require('../utils/catchAsync');
-const User = require('../models/user.model');
 const generatejwt = require('../utils/jwt');
-const Orders = require('../models/order.model');
+
+//* Models
 const Meal = require('../models/meal.model');
+const Orders = require('../models/order.model');
 const Restaurant = require('../models/restaurant.model');
+const User = require('../models/user.model');
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;

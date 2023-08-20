@@ -31,5 +31,28 @@ exports.createUserValidation = [
 exports.createRestaurantValidation = [
   body('name').notEmpty().withMessage('Name field is required'),
   body('address').notEmpty().withMessage('Address field is required'),
-  body('rating').notEmpty().withMessage('Rating field is required'),
+  body('rating')
+    .notEmpty()
+    .withMessage('Rating field is required')
+    .isNumeric()
+    .withMessage('Rating must be a numerical value between 1 and 5')
+    .custom((rating) => rating >= 1)
+    .withMessage("Rating can't be less than 1")
+    .custom((rating) => rating <= 5)
+    .withMessage("Rating can't be more than 5"),
+  validateFields,
+];
+
+exports.createReviewValidation = [
+  body('comment').notEmpty().withMessage('Comment field is required'),
+  body('rating')
+    .notEmpty()
+    .withMessage('Rating field is required')
+    .isNumeric()
+    .withMessage('Rating must be a numerical value between 1 and 5')
+    .custom((rating) => rating >= 1)
+    .withMessage("Rating can't be less than 1")
+    .custom((rating) => rating <= 5)
+    .withMessage("Rating can't be more than 5"),
+  validateFields,
 ];

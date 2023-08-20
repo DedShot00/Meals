@@ -8,6 +8,7 @@ const globalErrorHandler = require('./controllers/error.controller');
 
 //* routes imports
 const usersRoute = require('./routes/users.route')
+const restaurantsRoute = require('./routes/restaurant.route')
 
 const app = express();
 
@@ -22,9 +23,9 @@ console.log(process.env.NODE_ENV)
 
 //* routes
 app.use('/api/v1/users',usersRoute)
-app.use('api/v1/restaurants',() => {  })
-app.use('api/v1/meals',() => {  })
-app.use('api/v1/orders',() => {  })
+app.use('/api/v1/restaurants',restaurantsRoute)
+app.use('/api/v1/meals',() => { console.log('meals route') })
+app.use('/api/v1/orders',() => {  })
 
 app.use(globalErrorHandler)
 
