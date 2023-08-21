@@ -5,6 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const User = require('../models/user.model');
 const AppError = require('../utils/appError');
 const Reviews = require('../models/review.model');
+const Orders = require('../models/order.model');
 
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
@@ -66,25 +67,45 @@ exports.restrictTo = (...roles) => {
 };
 
 exports.protectReviewOwner = catchAsync(async (req, res, next) => {
-  const {id, restaurantId} = req.params
-  const {currentUser} = req
+  const { id, restaurantId } = req.params;
+  const { currentUser } = req;
 
   const review = await Reviews.findOne({
-    where:{
+    where: {
       id,
       restaurantId,
-      status: true
-    }
-  })
+      status: true,
+    },
+  });
 
   if (!review) {
-    return next(new AppError('Review not found',404))
+    return next(new AppError('Review not found', 404));
   }
 
   if (review.userId !== currentUser.id) {
-    return next(new AppError("You can't modify reviews you don't own",401))
+    return next(new AppError("You can't modify reviews you don't own", 401));
   }
-  
-  req.review = review
+
+  req.review = review;
+  next();
+});
+
+exports.protectOrderOwner = catchAsync(async (req, res, next) => {
+  const {id } = req.params
+  const {currentUser} = req
+
+  const order = await Orders.findOne({
+    where:{id, status: 'active'}
+  })
+
+  if (!order) {
+    return next(new AppError('Order not found',404))
+  }
+
+  if (order.userId !== currentUser.id) {
+    return next(new AppError('You only can modify your orders',401))
+  }
+
+  req.order = order
   next()
 });

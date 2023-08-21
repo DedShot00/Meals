@@ -48,11 +48,27 @@ exports.createReviewValidation = [
   body('rating')
     .notEmpty()
     .withMessage('Rating field is required')
-    .isNumeric()
+    .isInt()
     .withMessage('Rating must be a numerical value between 1 and 5')
     .custom((rating) => rating >= 1)
     .withMessage("Rating can't be less than 1")
     .custom((rating) => rating <= 5)
     .withMessage("Rating can't be more than 5"),
+  validateFields,
+];
+
+exports.createMealValidation = [
+  body('name').notEmpty().withMessage('Name field is required'),
+  body('price')
+    .notEmpty()
+    .withMessage('Price field is required')
+    .isInt()
+    .withMessage('Price must be an integer'),
+  validateFields,
+];
+
+exports.createOrderValidation = [
+  body('quanity').notEmpty().withMessage('Quantity field required'),
+  body('mealId').notEmpty().withMessage('MealId field required'),
   validateFields,
 ];

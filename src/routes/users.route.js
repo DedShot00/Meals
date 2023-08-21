@@ -23,13 +23,12 @@ router.post(
 router.post('/login', usersController.login);
 //? ************************ //
 
-//? JWT validation
+//? JWT Protected routes below
 router.use(authMiddleware.protect);
 
 //? =========================== //
 //? ******* User orders ******* //
-//? =========================== //
-//TODO comprobar relaciones con meal y restaurant 
+//? =========================== // 
 router.get('/orders', usersController.getUserOrders);
 router.get('/orders/:id', usersController.getUserOrderById)
 //? *************************** //
